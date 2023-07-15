@@ -1,0 +1,121 @@
+@import "./reset.scss";
+@import "./variables.scss";
+
+body {
+  font-size: 16px;
+}
+
+.app {
+  height: 100vh;
+}
+
+.modal-open{
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  translate: -50% 
+}
+
+// Wrapper needed to style without making styles globally, could be overcome with css module approach.
+.modal-content {
+  display: flex;
+  flex-direction: column;
+
+  .title {
+    font-size: 18px;
+    font-weight: 600;
+    line-height: 24px;
+    color: $black;
+    margin-bottom: 16px;
+  }
+
+  .label {
+    font-weight: 500;
+    margin-left: 8px;
+    font-size: 12px;
+    line-height: 16px;
+    letter-spacing: 0.2px;
+    color: $dark;
+    display: block;
+  }
+
+  .inputs {
+    margin: 4px auto 24px;
+    display: flex;
+  }
+
+  .select-country {
+    background-color: transparent;
+    border-radius: $border-radius;
+    border: 1px solid $light-gray;
+    padding: 8px 12px;
+    min-width: 106px;
+    text-align: left;
+    transition: 0.05s all ease-in;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    &--active {
+      border: 1px solid $primary;
+    }
+  }
+
+  .flag {
+    width: 22px;
+    height: 16px;
+    border-radius: 2px;
+    background-position: center;
+    background-size: cover;
+    border: 1px solid $light-gray
+  }
+
+  .dial-code {
+    margin-left: 8px;
+    font-size: 14px;
+    color: $dark;
+  }
+
+  .button-arrow{
+    margin-left: auto;
+    transition: rotate 0.1s ease-in-out;
+    
+    &--rotate{
+      rotate: 180deg;
+    }
+  }
+
+  .number-input {
+    padding: 9px 12px 7px ;
+    border: 1px $light-gray solid;
+    margin-left: 4px;
+    border-radius: $border-radius;
+    flex-grow: 1;
+    width: 100%;
+  }
+
+  .actions {
+    display: flex;
+    justify-content: flex-end;
+  }
+
+  .button {
+    background-color: transparent;
+    border: 1px $primary solid;
+    border-radius: $border-radius;
+    min-width: 116px;
+    padding: 8px 0;
+    font-weight: 500;
+    line-height: 17px;
+    font-size: 14px;
+  }
+
+  .cancel {
+    margin-right: 16px;
+  }
+
+  .save {
+    color: $white;
+    background-color: $primary;
+  }
+}
