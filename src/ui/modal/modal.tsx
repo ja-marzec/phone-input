@@ -1,16 +1,15 @@
-import "./_modal.scss";
-import { Portal } from "../portal";
 import { ReactNode, useEffect } from "react";
+import { Portal } from "../portal";
 import FocusTrap from "focus-trap-react";
+import css from "./modal.module.scss";
 
 interface ModalProps {
   children: ReactNode;
   isOpen: boolean;
   handleClose: () => void;
-  onUnmount?: () => void
 }
 
-export const Modal = ({ children, isOpen, handleClose, onUnmount }: ModalProps) => {
+export const Modal = ({ children, isOpen, handleClose }: ModalProps) => {
   useEffect(() => {
     const closeOnEscapeKey = (e: KeyboardEvent) =>
       e.key === "Escape" ? handleClose() : null;
@@ -23,17 +22,16 @@ export const Modal = ({ children, isOpen, handleClose, onUnmount }: ModalProps) 
   if (!isOpen) return null;
 
   const closeOnClickOutside = (e: any) => {
-    e.stopPropagation()
-    if(e.target.classList.contains('modal')) {
-        handleClose()
+    if (e.target.id === "modal") {
+      handleClose();
     }
   };
 
   return (
     <Portal>
       <FocusTrap>
-        <dialog className="modal" onClick={closeOnClickOutside}>
-          <div className="modal-content">{children}</div>
+        <dialog className={css.modal} onClick={closeOnClickOutside} id="modal">
+          <div className={css.modalContent}>{children}</div>
         </dialog>
       </FocusTrap>
     </Portal>

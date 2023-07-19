@@ -1,2 +1,2 @@
 export * from './input-modify'
-export * from './query-status-handler'
+export * from './maped-types'

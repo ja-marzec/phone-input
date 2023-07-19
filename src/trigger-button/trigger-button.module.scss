@@ -1,0 +1,42 @@
+@import '../variables';
+
+.selectCountry {
+    background-color: transparent;
+    border-radius: $border-radius;
+    border: 1px solid $light-gray;
+    padding: 8px 12px;
+    min-width: 106px;
+    text-align: left;
+    transition: 0.05s all ease-in;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    &Active {
+      border: 1px solid $primary;
+    }
+  }
+
+  .flag {
+    width: 22px;
+    height: 16px;
+    border-radius: 2px;
+    background-position: center;
+    background-size: cover;
+    border: 1px solid $light-gray
+  }
+
+  .dialCode {
+    margin-left: 8px;
+    font-size: 14px;
+    color: $dark;
+  }
+
+  .buttonArrow{
+    margin-left: auto;
+    transition: rotate 0.1s ease-in-out;
+    
+    &Rotate{
+      rotate: 180deg;
+    }
+  }

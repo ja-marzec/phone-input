@@ -1,0 +1,74 @@
+@import '../../variables';
+
+.optionsWrapper {
+  background-color: $white;
+  border-radius: $border-radius;
+  border: 1px solid $light;
+  max-height: 260px;
+  overflow-y: scroll;
+  position: absolute;
+  width: 260px;
+  z-index: 1;
+
+  .searchWrapper {
+    height: 40px;
+    position: relative;
+  }
+
+  .loupe {
+    left: 7px;
+    overflow: hidden;
+    position: absolute;
+    top: 10px;
+    z-index: 20;
+  }
+
+  .search {
+    border-bottom: 1px $light solid;
+    border-radius: $border-radius;
+    border: none;
+    height: 40px;
+    padding: 8px 12px 8px 30px;
+    position: fixed;
+    width: 258px;
+    z-index: 100;
+  }
+
+  .option {
+    align-items: center;
+    background-color: $white;
+    border: none;
+    display: flex;
+    padding: 8px 12px;
+    text-align: left;
+    transition: 0.05s all ease-in;
+    width: 100%;
+
+    &:hover {
+      background-color: $light;
+    }
+
+    &:first-of-type {
+      background-color: red !important;
+    }
+  }
+
+  .decorator {
+    background-position: center;
+    background-size: cover;
+    border-radius: 2px;
+    border: 1px solid $light-gray;
+    height: 16px;
+    width: 22px;
+  }
+
+  .name {
+    color: $dark;
+    font-size: 14px;
+    margin-left: 8px;
+  }
+
+  .additionalInfo {
+    margin-left: auto;
+  }
+}

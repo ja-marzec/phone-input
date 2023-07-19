@@ -1,66 +1,27 @@
-import "./_app.scss";
-import { Country, fetchCountries } from "./api/fetch-country";
-import { DataShape, SelectWithSearch  } from "./ui/select-with-search";
-import { Loader } from "./ui";
-import { Modal } from "./ui/modal";
-import { QuertyStatusHandler, writePhoneNumber } from "./helpers";
-import { QueryStatus, useQuery } from "react-query";
-import { useRef, useState } from "react";
-import { Arrow } from "./ui/icons";
+import { useRef, useState } from 'react';
+import css from './app.module.scss';
+import classNames from 'classnames';
+import { useQuery } from 'react-query';
+import { ConcreteType, writePhoneNumber } from './helpers';
+import { DataShape, SelectWithSearch } from './ui/select-with-search';
+import { fetchCountries } from './api/fetch-country';
+import { Modal } from './ui/modal';
+import { TriggerButton } from './trigger-button';
 
-interface TriggerButtonProps {
-  buttonRef: any;
-  isCountryListOpen: boolean;
-  openSelect: (() => void) | undefined;
-  selectedCountry: Country;
-  status: QueryStatus;
+export interface Country {
+  dialCode: string;
+  flag: string;
+  name: string;
 }
 
-const TriggerButton = ({
-  buttonRef,
-  isCountryListOpen,
-  openSelect,
-  selectedCountry,
-  status,
-}: TriggerButtonProps) => {
-  return (
-    <button
-    className={`select-country ${
-      isCountryListOpen && "select-country--active"
-    }`}
-    ref={buttonRef}
-    onClick={openSelect}
-    value={selectedCountry.dialCode}
-    >
-      <QuertyStatusHandler
-        errorComponent={<span> Try again later</span>}
-        loaderComponent={<Loader />}
-        status={status}
-        successComponent={
-          <>
-            <span
-              className="flag"
-              style={{
-                backgroundImage: `url(${selectedCountry.flag})`,
-              }}
-            />
-            <span className="dial-code">{selectedCountry.dialCode}</span>
-            <Arrow className={`button-arrow ${isCountryListOpen && 'button-arrow--rotate'}`} />
-          </>
-        }
-      />
-    </button>
-  );
-};
-
 const initalCountry: Country = {
-  dialCode: "+48",
-  flag: "https://flagsapi.com/PL/flat/48.png",
-  name: "Poland",
+  dialCode: '+48',
+  flag: 'https://flagsapi.com/PL/flat/48.png',
+  name: 'Poland',
 };
 
 export const App = () => {
-  const { status, data } = useQuery(["countries"], fetchCountries, {
+  const { status, data } = useQuery(['countries'], fetchCountries, {
     staleTime: Infinity,
     cacheTime: Infinity,
   });
@@ -69,7 +30,7 @@ export const App = () => {
   const [isCountryListOpen, setIsCountryListOpen] = useState(false);
   const [selectedCountry, setSelectedCountry] =
     useState<Country>(initalCountry);
-  const [phoneNumber, setPhoneNumber] = useState("");
+  const [phoneNumber, setPhoneNumber] = useState('');
 
   const buttonRef = useRef<HTMLButtonElement>(null);
 
@@ -77,7 +38,7 @@ export const App = () => {
     setIsModalOpen(!isModalOpen);
   };
 
-  const selectCountry = (country: DataShape): void => {
+  const selectCountry = (country: ConcreteType<DataShape>): void => {
     setSelectedCountry({
       name: country.name,
       dialCode: country.additionalInfo,
@@ -86,13 +47,13 @@ export const App = () => {
     setIsCountryListOpen(false);
   };
 
-  const closeOnClickOutside = (target: HTMLDivElement): void => {
+  const closeList = (e: any): void => {
     if (!isCountryListOpen) {
       return;
     }
     if (
-      !target.classList.contains("option") &&
-      !target.classList.contains("search")
+      !e.target.classList[0]?.includes('option') &&
+      !e.target.classList[0]?.includes('search')
     ) {
       setIsCountryListOpen(false);
     }
@@ -100,37 +61,37 @@ export const App = () => {
 
   const cancel = (): void => {
     setSelectedCountry(initalCountry);
-    setPhoneNumber("");
+    setPhoneNumber('');
   };
 
   const save = (): void => {
     setIsModalOpen(false);
   };
 
-  const onModalClose = () => {
+  const onModalClose = (): void => {
     setIsModalOpen(false);
     setIsCountryListOpen(false);
   };
 
   return (
-    <div className="app">
-      <button className="modal-open" onClick={toggleModalOpen}>
+    <div className={css.app}>
+      <button className={css.modalOpen} onClick={toggleModalOpen}>
         Open modal
       </button>
       <Modal isOpen={isModalOpen} handleClose={onModalClose}>
-        <div onClick={(e) => closeOnClickOutside(e.target as HTMLDivElement)}>
-          <h3 className="title">Change phone number</h3>
-          <span className="label">Provide new phone number</span>
-          <div className="inputs">
+        <div onClick={closeList}>
+          <h3 className={css.title}>Change phone number</h3>
+          <span className={css.label}>Provide new phone number</span>
+          <div className={css.inputs}>
             <SelectWithSearch
               buttonRef={buttonRef}
-              data={data?.map((item) => ({
+              data={data?.map((item: Country) => ({
                 name: item.name,
                 decorator: item.flag,
                 id: item.dialCode,
                 additionalInfo: item.dialCode,
               }))}
-              filterBy="name"
+              filterBy='name'
               handleSelect={selectCountry}
               isOpen={isCountryListOpen}
               openComponent={
@@ -140,7 +101,7 @@ export const App = () => {
                   selectedCountry={selectedCountry}
                   status={status}
                   openSelect={
-                    status === "loading"
+                    status === 'loading'
                       ? undefined
                       : () => setIsCountryListOpen(true)
                   }
@@ -148,19 +109,26 @@ export const App = () => {
               }
             />
             <input
-              className="number-input"
+              className={css.numberInput}
               onChange={(e) => writePhoneNumber(e, setPhoneNumber)}
-              placeholder="000-000-000"
-              type="text"
+              placeholder='000-000-000'
+              type='text'
               value={phoneNumber}
             />
           </div>
 
-          <div className="actions">
-            <button className="button cancel" onClick={cancel}>
+          <div className={css.actions}>
+            <button
+              className={classNames(css.button, css.cancel)}
+              onClick={cancel}
+            >
               Cancel
             </button>
-            <button className="button save" type="submit" onClick={save}>
+            <button
+              className={classNames(css.button, css.save)}
+              type='submit'
+              onClick={save}
+            >
               Save
             </button>
           </div>

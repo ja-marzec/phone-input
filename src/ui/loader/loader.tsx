@@ -1,2 +1,2 @@
-import "./_loader.scss"
-export const Loader = () => <div className="loader" />
+import css from './loader.module.scss';
+export const Loader = () => <div className={css.loader} />;

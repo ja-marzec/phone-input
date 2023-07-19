@@ -2,9 +2,9 @@ import { QueryStatus } from "react-query";
 
 
 interface QuertyStatusHandlerProps {
+  status: QueryStatus;
   errorComponent: JSX.Element;
   loaderComponent: JSX.Element;
-  status: QueryStatus;
   successComponent: JSX.Element;
 }
 

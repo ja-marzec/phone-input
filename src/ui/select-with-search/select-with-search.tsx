@@ -1,7 +1,7 @@
-import "./_select-with-search.scss";
-import { ReactNode, useLayoutEffect, useState } from "react";
-import { useWindowSize } from "../../use-window-size";
-import { Loupe } from "../icons";
+import { ReactNode, useLayoutEffect, useState } from 'react';
+import css from './select-with-search.module.scss';
+import { useWindowSize } from '../../use-window-size';
+import { Loupe } from '../icons';
 
 export interface DataShape {
   additionalInfo: string;
@@ -27,7 +27,7 @@ export const SelectWithSearch = ({
   isOpen,
   openComponent,
 }: SelectWithSearchProps) => {
-  const [search, setSearch] = useState("");
+  const [search, setSearch] = useState('');
   const [dataToDisplay, setDataToDisplay] = useState(data);
   const size = useWindowSize();
   const [adjustSelectPosition, setAdjustSelectPosition] = useState(0);
@@ -37,7 +37,9 @@ export const SelectWithSearch = ({
     const inputValue = e.target.value;
     if (data) {
       const newData = data.filter((item: DataShape) =>
-        item[filterBy]?.includes(inputValue)
+        item[filterBy]
+          ?.toLocaleLowerCase()
+          ?.includes(inputValue.toLocaleLowerCase())
       );
 
       setSearch(inputValue);
@@ -56,35 +58,40 @@ export const SelectWithSearch = ({
     <div>
       {openComponent}
       {isOpen && (
-        <div className="options-wrapper" style={{ top: adjustSelectPosition }}>
+        <div
+          className={css.optionsWrapper}
+          style={{ top: adjustSelectPosition }}
+        >
           <>
-            <div className="search-wrapper">
-              <Loupe className="loupe"/>
+            <div className={css.searchWrapper}>
+              <Loupe className={css.loupe} />
               <input
-                className="search"
+                className={css.search}
                 onChange={filterInput}
-                placeholder="Search"
-                type="text"
+                placeholder='Search'
+                type='text'
                 value={search}
               />
             </div>
             {dataToDisplay?.map((item: DataShape) => (
               <button
-                className="option"
+                className={css.option}
                 key={item.id}
                 onClick={() => handleSelect(item)}
                 value={item.id}
               >
                 {item?.decorator && (
                   <div
-                    className="decorator"
+                    className={css.decorator}
                     style={{
                       backgroundImage: `url(${item.decorator})`,
                     }}
                   />
                 )}
-                <span className="name">{item.name}</span>
-                <span className="additional-info">{item.additionalInfo}</span>
+                <span className={css.name}>{item.name}</span>
+                <span className={css.additionalInfo}>
+                  {item.additionalInfo}
+                </span>
               </button>
             ))}
           </>

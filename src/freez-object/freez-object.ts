@@ -1,15 +1,10 @@
-type EmptyObj = Record<string, never>;
 type BaseType = string | (() => string);
 
-type NonEmptyObject<T> = {
-  [K in keyof T]-?: T[K] | NonEmptyObject<T[K]>;
-};
-
 type LeafValue<T> = {
-  [key: string]: T | LeafValue<T> ;
+  [key: string]: T | LeafValue<T>
 };
 
-export function typedFreeze<T extends LeafValue<BaseType>>(obj: NonEmptyObject<T>): Readonly<T> {
+export function typedFreeze<T extends LeafValue<BaseType>>(obj: T): Readonly<T> {
   const recursivelyFreeze = (obj: any) => {
     if (typeof obj !== "object" || obj === null || Array.isArray(obj)) {
       return obj;
@@ -26,8 +21,9 @@ export function typedFreeze<T extends LeafValue<BaseType>>(obj: NonEmptyObject<T
 }
 
 const a = typedFreeze({
-  asd: "uno",
-  dupa: {},
+  // number: 1,
+  empty: {},
+  uno: "1",
   tres: {
     asd: "uno",
     uno: () => "",
